@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Scenes/kojin_scene/scene_yuuta.unity
+- path: Assets/Scenes/kojin_scene/scene_yuto.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
