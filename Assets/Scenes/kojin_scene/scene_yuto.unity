@@ -292,6 +292,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.618
       objectReference: {fileID: 0}
+    - target: {fileID: 8719437706263962917, guid: 2620c9e811c81c84a9ed028dc7d29dc3, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d9a2387eccc368e4996591df1b6da421, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -366,6 +370,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: cfdfef9d353b30b4b82f88f3d88acb5e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3222d3734e8480249b03e07153ddb346, type: 2}
     - target: {fileID: 919132149155446097, guid: cfdfef9d353b30b4b82f88f3d88acb5e, type: 3}
       propertyPath: m_Name
       value: Rocket_1 (2)
@@ -1402,7 +1410,7 @@ Transform:
   m_GameObject: {fileID: 1511061255}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -20.216492, y: 11.3, z: -16.53274}
+  m_LocalPosition: {x: -20.216492, y: 7.8, z: -16.53274}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1484,6 +1492,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: cfdfef9d353b30b4b82f88f3d88acb5e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a6cfa9ac2d7fda046b6632211900da63, type: 2}
     - target: {fileID: 919132149155446097, guid: cfdfef9d353b30b4b82f88f3d88acb5e, type: 3}
       propertyPath: m_Name
       value: Rocket_1 (1)
@@ -1597,7 +1609,7 @@ Transform:
   m_GameObject: {fileID: 1756024321}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.8, y: 1.8958015, z: -6.259408}
+  m_LocalPosition: {x: 6.2, y: -1.5, z: -3.7}
   m_LocalScale: {x: 1000, y: 1, z: 1000}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1950,6 +1962,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: cfdfef9d353b30b4b82f88f3d88acb5e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 375251c9fa985ba4080c1beadc4e9205, type: 2}
     - target: {fileID: 919132149155446097, guid: cfdfef9d353b30b4b82f88f3d88acb5e, type: 3}
       propertyPath: m_Name
       value: Rocket_1 (3)
