@@ -26,6 +26,9 @@ public class DiceRoll : MonoBehaviour
     public GameObject dice5;
     public GameObject dice6;
 
+    public GameObject MainCon;
+    private MainControll mainCon;
+
     //diceReset - ダイスの6面すべての表示位置を引数1,引数2,引数3にリセットします。通常使用せず、diceLooksによって呼び出しされます。
     public void diceReset(float diceBaseX,float diceBaseY,float diceBaseZ)
     {
@@ -87,7 +90,7 @@ public class DiceRoll : MonoBehaviour
         }
     }
 
-    public static int diceResult = -1;
+    public int diceResult = -1;
     private System.Random randomSeed;
     private bool isRolling = false;
 
@@ -98,6 +101,9 @@ public class DiceRoll : MonoBehaviour
          //StartCoroutine(JustDiceCoroutine());
 
          diceReset(0f,0f,0f);
+
+         MainCon = GameObject.Find("MainControll");
+         mainCon = MainCon.GetComponent<MainControll>();
     }
 
     void Move(GameObject obj, float moveToX,float moveToY,float moveToZ)
@@ -111,7 +117,7 @@ public class DiceRoll : MonoBehaviour
         isRolling = true;
         
         diceResult = -1;
-        //PlayerPrefs.SetInt("dice", diceResult);
+        PlayerPrefs.SetInt("dice", diceResult);
 
         //diceReset(0.0f,0.0f,0.0f);
 
@@ -130,7 +136,7 @@ public class DiceRoll : MonoBehaviour
         }
         
         diceResult = randomSeed.Next(1, 7);
-        //PlayerPrefs.SetInt("dice", diceResult);
+        PlayerPrefs.SetInt("dice", diceResult);
         Debug.Log(debugLogger + "- Final :" + diceResult);
         diceLooks(diceResult,5.0f,7.0f,-3.0f,0.06f);
 
@@ -141,9 +147,9 @@ public class DiceRoll : MonoBehaviour
     void Update()
     {
         //int diceRequestedStatus = MainControll.diceRequest;//PlayerPrefs.GetInt("diceRquester");
-        if (MainControll.requestDice == 1 && Input.GetKey(KeyCode.R))
+        if (mainCon.requestDice == 1 && Input.GetKeyDown(KeyCode.R))
         {
-            MainControll.requestDice = 0;
+            mainCon.requestDice = 0;
             //PlayerPrefs.SetInt("diceRequester", diceRequestedStatus);
 
             if (!isRolling)

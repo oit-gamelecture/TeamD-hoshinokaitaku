@@ -9,13 +9,17 @@ public class MainControll : MonoBehaviour
     public int allowMoveTurn = 0;
     public int currentPhase = 0; //プレイヤー内のイベントごとに遷移
     public int allowMovePhase = 0;
-    public bool winnedConfirmed = false;
+    public int wonPlayer = -1;
     public int currentPlayer = 0; //現在プレイしているプレイヤー:0-3
-    public static int requestDice = 0; // 1ならダイスをdiceRoll.csにリクエストする
+    public int requestDice = 0; // 1ならダイスをdiceRoll.csにリクエストする
     public int overcome = 0; // プレイヤーは0番マスを通過したか？
+
+    public GameObject Dicetest;
+    private DiceRoll diceRoll;
 
 
     int modPoint = 0;
+    int swapLocate = 0;
 
     public int[] playerProgress = {0,0,0,0};
     /*playerProgress[0] = 0;
@@ -43,11 +47,18 @@ public class MainControll : MonoBehaviour
         Debug.Log("[MainControll] ゲームを開始します。");
         //a = PlayerPrefs.GetInt("dice");
         //Debug.Log(a);
+
+        Dicetest = GameObject.Find("DiceTest");
+        diceRoll = Dicetest.GetComponent<DiceRoll>();
     }
 
     // Update is called once per frame
     void Update()
     {   
+        if (wonPlayer != -1) {
+            currentPhase = 99;
+            Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " " + wonPlayer + "番プレイヤーが勝利しました。");
+        }
         if (currentPhase == 0) {
             tempSavePlayerProgress = 999;
             tempSavePlayerScore = 999;
@@ -71,7 +82,8 @@ public class MainControll : MonoBehaviour
         }
 
         //ダイスの数が-1から1-6に変わったとき、フェイズ進行
-        receivedDice = DiceRoll.diceResult;//PlayerPrefs.GetInt("dice");
+        receivedDice = diceRoll.diceResult;//PlayerPrefs.GetInt("dice");
+        //receivedDice = PlayerPrefs.GetInt("dice");
 
         if (currentPhase == 1 && receivedDice != -1) {
             overcome = 0;
@@ -102,7 +114,7 @@ public class MainControll : MonoBehaviour
                 Debug.Log("[MainControl] " + currentTurn + "/" + currentPhase + "プレイヤー" + currentPlayer + "は、0マス目に到達または通過しました。");
                 if (playerScore[currentPlayer] >= 3) {
                     Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " プレイヤー" + currentPlayer + "のスコアが" + playerScore[currentPlayer] + "/3 を超えたので勝利しました。" );
-                    //winFlag
+                    wonPlayer = currentPlayer;
                 }else{
                     tempSavePlayerScore = playerScore[currentPlayer] + 1;
                     Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " プレイヤー" + currentPlayer + "のスコアは" + playerScore[currentPlayer] + "でクリアではないので、代わりに" + tempSavePlayerScore + "点になりました。" );
@@ -128,6 +140,7 @@ public class MainControll : MonoBehaviour
                     Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(3) : サイコロを振ってください。");
                     currentPhase = 11;
                     receivedDice = -1;
+                    requestDice = 1;
                     /*rndPoint = randomSeed.Next(0, 3);
                     Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(3) : +" + rndPoint + "pt が加算されました。");
                     if (overcome == 0) {
@@ -199,46 +212,50 @@ public class MainControll : MonoBehaviour
             currentPhase = 4;
         }
 
-        if (currentPhase == 21 && Input.GetKey(KeyCode.Alpha1)) {
+        if (currentPhase == 21 && Input.GetKeyDown(KeyCode.Alpha1)) {
             if (currentPlayer == 0) {
                 Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(5) : 自分自身は選択できません。");
             }else{
                 Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(5) : プレイヤー" + currentPlayer + "番と0番の位置を入れ替えました。");
-                playerProgress[currentPlayer] = playerProgress[0];
+                swapLocate = playerProgress[0];
                 playerProgress[0] = tempSavePlayerProgress;
+                tempSavePlayerProgress = swapLocate;
                 currentPhase = 4;
             }
         }
 
-        if (currentPhase == 21 && Input.GetKey(KeyCode.Alpha2)) {
+        if (currentPhase == 21 && Input.GetKeyDown(KeyCode.Alpha2)) {
             if (currentPlayer == 1) {
                 Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(5) : 自分自身は選択できません。");
             }else{
                 Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(5) : プレイヤー" + currentPlayer + "番と1番の位置を入れ替えました。");
-                playerProgress[currentPlayer] = playerProgress[1];
+                swapLocate = playerProgress[1];
                 playerProgress[1] = tempSavePlayerProgress;
+                tempSavePlayerProgress = swapLocate;
                 currentPhase = 4;
             }
         }
 
-        if (currentPhase == 21 && Input.GetKey(KeyCode.Alpha3)) {
+        if (currentPhase == 21 && Input.GetKeyDown(KeyCode.Alpha3)) {
             if (currentPlayer == 2) {
                 Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(5) : 自分自身は選択できません。");
             }else{
                 Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(5) : プレイヤー" + currentPlayer + "番と2番の位置を入れ替えました。");
-                playerProgress[currentPlayer] = playerProgress[2];
+                swapLocate = playerProgress[2];
                 playerProgress[2] = tempSavePlayerProgress;
+                tempSavePlayerProgress = swapLocate;
                 currentPhase = 4;
             }
         }
 
-        if (currentPhase == 21 && Input.GetKey(KeyCode.Alpha4)) {
+        if (currentPhase == 21 && Input.GetKeyDown(KeyCode.Alpha4)) {
             if (currentPlayer == 3) {
                 Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(5) : 自分自身は選択できません。");
             }else{
                 Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(5) : プレイヤー" + currentPlayer + "番と3番の位置を入れ替えました。");
-                playerProgress[currentPlayer] = playerProgress[3];
+                swapLocate = playerProgress[3];
                 playerProgress[3] = tempSavePlayerProgress;
+                tempSavePlayerProgress = swapLocate;
                 currentPhase = 4;
             }
         }

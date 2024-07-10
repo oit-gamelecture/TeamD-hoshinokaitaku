@@ -1226,6 +1226,8 @@ MonoBehaviour:
   dice4: {fileID: 0}
   dice5: {fileID: 0}
   dice6: {fileID: 0}
+  MainCon: {fileID: 0}
+  diceResult: -1
 --- !u!4 &925675369
 Transform:
   m_ObjectHideFlags: 0
@@ -2193,7 +2195,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1757778398}
-  - component: {fileID: 1757778397}
+  - component: {fileID: 1757778399}
   m_Layer: 0
   m_Name: MainControll
   m_TagString: Untagged
@@ -2201,30 +2203,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1757778397
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1757778396}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bd1552971613a74f91223d0866d25e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentTurn: 0
-  allowMoveTurn: 0
-  currentPhase: 0
-  allowMovePhase: 0
-  winnedConfirmed: 0
-  currentPlayer: 0
-  overcome: 0
-  playerProgress: 00000000000000000000000000000000
-  playerScore: 00000000000000000000000000000000
-  playerStatus: 00000000000000000000000000000000
-  tempSavePlayerProgress: 0
-  tempSavePlayerScore: 0
 --- !u!4 &1757778398
 Transform:
   m_ObjectHideFlags: 0
@@ -2240,6 +2218,32 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1757778399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1757778396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bd1552971613a74f91223d0866d25e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTurn: 0
+  allowMoveTurn: 0
+  currentPhase: 0
+  allowMovePhase: 0
+  wonPlayer: -1
+  currentPlayer: 0
+  requestDice: 0
+  overcome: 0
+  Dicetest: {fileID: 0}
+  playerProgress: 00000000000000000000000000000000
+  playerScore: 00000000000000000000000000000000
+  playerStatus: 00000000000000000000000000000000
+  tempSavePlayerProgress: 0
+  tempSavePlayerScore: 0
 --- !u!1 &1893436517
 GameObject:
   m_ObjectHideFlags: 0
