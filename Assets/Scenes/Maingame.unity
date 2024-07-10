@@ -598,6 +598,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dice1
       objectReference: {fileID: 0}
+    - target: {fileID: 611946892179808441, guid: 08da831739019284488daa1ec22502ba, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7891553542178274785, guid: 08da831739019284488daa1ec22502ba, type: 3}
       propertyPath: m_LocalPosition.x
       value: 15.375373
@@ -769,6 +773,10 @@ PrefabInstance:
     - target: {fileID: 3792254044667409163, guid: 706558d609652714eb5104b38efaaec1, type: 3}
       propertyPath: m_Name
       value: Dice3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3792254044667409163, guid: 706558d609652714eb5104b38efaaec1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4960243678846380630, guid: 706558d609652714eb5104b38efaaec1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1116,6 +1124,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dice6
       objectReference: {fileID: 0}
+    - target: {fileID: 3809821982910589188, guid: 471227cd8237100498709df3c73f3f7b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6493730716315554277, guid: 471227cd8237100498709df3c73f3f7b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 15.375373
@@ -1197,7 +1209,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 925675367}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b138a4c8f22ea3489170f193ee0ca64, type: 3}
+  m_Script: {fileID: 11500000, guid: 74ec810126f002441a5e3ce915c2bb6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   objDice1: {fileID: 222266164}
@@ -1206,8 +1218,14 @@ MonoBehaviour:
   objDice4: {fileID: 1263414504}
   objDice5: {fileID: 1999904313}
   objDice6: {fileID: 859750468}
-  whileRoll: {fileID: 8300000, guid: 88f8f1ad2c00b2645b670d5463f3ece9, type: 3}
-  endRoll: {fileID: 8300000, guid: 81fc964b4c5b6594ab0b77c81b620c81, type: 3}
+  whileRoll: {fileID: 0}
+  endRoll: {fileID: 0}
+  dice1: {fileID: 0}
+  dice2: {fileID: 0}
+  dice3: {fileID: 0}
+  dice4: {fileID: 0}
+  dice5: {fileID: 0}
+  dice6: {fileID: 0}
 --- !u!4 &925675369
 Transform:
   m_ObjectHideFlags: 0
@@ -1477,6 +1495,10 @@ PrefabInstance:
     - target: {fileID: 3104564879024671718, guid: 04a5e5eaf6bfb3a49a4d5a504837df6e, type: 3}
       propertyPath: m_Name
       value: Dice4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3104564879024671718, guid: 04a5e5eaf6bfb3a49a4d5a504837df6e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1925,6 +1947,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dice2
       objectReference: {fileID: 0}
+    - target: {fileID: 2092363518171241638, guid: 3a43036c2cf035b49b10e8d5a6bb9d6f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8765082554620598708, guid: 3a43036c2cf035b49b10e8d5a6bb9d6f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 15.375373
@@ -2158,6 +2184,62 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d23e2c399fa8bac47908afbc009b48bd, type: 3}
+--- !u!1 &1757778396
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1757778398}
+  - component: {fileID: 1757778397}
+  m_Layer: 0
+  m_Name: MainControll
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1757778397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1757778396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bd1552971613a74f91223d0866d25e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTurn: 0
+  allowMoveTurn: 0
+  currentPhase: 0
+  allowMovePhase: 0
+  winnedConfirmed: 0
+  currentPlayer: 0
+  overcome: 0
+  playerProgress: 00000000000000000000000000000000
+  playerScore: 00000000000000000000000000000000
+  playerStatus: 00000000000000000000000000000000
+  tempSavePlayerProgress: 0
+  tempSavePlayerScore: 0
+--- !u!4 &1757778398
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1757778396}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1893436517
 GameObject:
   m_ObjectHideFlags: 0
@@ -2304,6 +2386,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dice5
       objectReference: {fileID: 0}
+    - target: {fileID: 6184239866279855393, guid: 8bbe86eb057dfaf42b820a793aa15c24, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2330,3 +2416,4 @@ SceneRoots:
   - {fileID: 32946548}
   - {fileID: 1593495594}
   - {fileID: 925675369}
+  - {fileID: 1757778398}
