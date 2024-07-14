@@ -139,7 +139,8 @@ public class DiceRoll : MonoBehaviour
         PlayerPrefs.SetInt("dice", diceResult);
         Debug.Log(debugLogger + "- Final :" + diceResult);
         diceLooks(diceResult,5.0f,7.0f,-3.0f,0.06f);
-
+            yield return new WaitForSeconds(0.05f);
+        //diceResult = -1;
         isRolling = false;
     }
 
@@ -162,7 +163,13 @@ public class DiceRoll : MonoBehaviour
             }
         }else{
             
-        diceResult = -1;
+        //diceResult = -1;
+        }
+
+        if (mainCon.diceAccept == 1) {
+            mainCon.diceAccept = 0;
+            diceResult = -1;
+            Debug.Log("Dice Acception Received.");
         }
 
     }

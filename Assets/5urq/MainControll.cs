@@ -21,6 +21,8 @@ public class MainControll : MonoBehaviour
     int modPoint = 0;
     int swapLocate = 0;
 
+    public int diceAccept = 0;
+
     public int[] playerProgress = {0,0,0,0};
     /*playerProgress[0] = 0;
     playerProgress[1] = 0;
@@ -103,7 +105,8 @@ public class MainControll : MonoBehaviour
             }else{
                 tempSavePlayerProgress = playerProgress[currentPlayer] + receivedDice;
             }
-            receivedDice = -1;
+            //receivedDice = -1;
+            diceAccept = 1;
             if (tempSavePlayerProgress >= 12) {
                 overcome = 1;
                 tempSavePlayerProgress = tempSavePlayerProgress - 12;
