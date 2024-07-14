@@ -199,19 +199,20 @@ public class MainControll : MonoBehaviour
                     break;
                 case 11:
                     Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(11) : 5マス戻る+1休み");
-                    tempSavePlayerProgress = tempSavePlayerProgress - 2;
+                    tempSavePlayerProgress = tempSavePlayerProgress - 5;
                     playerStatus[currentPlayer] = 3;
                     currentPhase = 4;
                     break;       
             }
         }
         if (currentPhase == 11 && receivedDice != -1) {
-            modPoint = receivedDice % 2;
+            modPoint = receivedDice % 3;
             Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(3) : サイコロが " + receivedDice + " だったので " + modPoint + "pt が加算されました。");
             if (overcome == 0) {
                 tempSavePlayerScore = playerScore[currentPlayer];
             }
             tempSavePlayerScore = tempSavePlayerScore + modPoint;
+            diceAccept = 1;
             currentPhase = 4;
         }
 
