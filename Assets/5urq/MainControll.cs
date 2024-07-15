@@ -13,6 +13,7 @@ public class MainControll : MonoBehaviour
     public int currentPlayer = 0; //現在プレイしているプレイヤー:0-3
     public int requestDice = 0; // 1ならダイスをdiceRoll.csにリクエストする
     public int overcome = 0; // プレイヤーは0番マスを通過したか？
+    public int toggleMasu = 0; // +3/-3 toggleer
 
     public GameObject Dicetest;
     private DiceRoll diceRoll;
@@ -37,6 +38,10 @@ public class MainControll : MonoBehaviour
     
     public int[] playerStatus = {0,0,0,0};
     // 1: reverse, 2: 2x, 3: absent
+
+    public int[] playerProgressGap = {0,0,0,0};
+
+    public int tempSavePlayerProgressGap;
 
     public int tempSavePlayerProgress;
     public int tempSavePlayerScore;
@@ -123,8 +128,12 @@ public class MainControll : MonoBehaviour
                     Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " プレイヤー" + currentPlayer + "のスコアは" + playerScore[currentPlayer] + "でクリアではないので、代わりに" + tempSavePlayerScore + "点になりました。" );
                 }
             }
+
             switch (tempSavePlayerProgress)
             {
+                case 0:
+                    currentPhase = 4;
+                    break;
                 case 1:
                     Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(1) : +1 pt");
                     if (overcome == 0) {
@@ -182,11 +191,48 @@ public class MainControll : MonoBehaviour
                     currentPhase = 4;
                     break;
                 case 8:
-                    Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(8) : unidentified");
+                    Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(8) : Toggle +3 / -3");
+                    if ( toggleMasu == 0 ) {
+                        toggleMasu = 1;
+                        tempSavePlayerProgress = tempSavePlayerProgress + 3;
+                        Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(8) : 3マス進みました。次通る人は3マス戻ります。");
+                    }else {
+                        toggleMasu = 0;
+                        tempSavePlayerProgress = tempSavePlayerProgress - 3;
+                        Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(8) : 3マス戻りました。次通る人は3マス進みます。");
+                    }
                     currentPhase = 4;
                     break;
                 case 9:
-                    Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(9) : コマが一番近い人と位置交換 (未実装)");
+                    Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(9) : コマが一番近い人と位置交換");
+                    
+                    playerProgressGap[0] = Mathf.Abs(playerProgress[0] - playerProgress[currentPlayer]) * 10;
+                    playerProgressGap[1] = Mathf.Abs(playerProgress[1] - playerProgress[currentPlayer]) * 10 + 1;
+                    playerProgressGap[2] = Mathf.Abs(playerProgress[2] - playerProgress[currentPlayer]) * 10 + 2;
+                    playerProgressGap[3] = Mathf.Abs(playerProgress[3] - playerProgress[currentPlayer]) * 10 + 3;
+
+                    for (int p=0; p < 4; p++)
+                    {
+                        if (p == 0) {
+                            tempSavePlayerProgressGap = playerProgressGap[0];
+                        }else{
+                            if (tempSavePlayerProgressGap > playerProgressGap[p]) {
+                                if (playerProgressGap[p] >= 10) {
+                                    tempSavePlayerProgressGap = playerProgressGap[p];
+                                }
+                            }
+                        }
+                    }
+                    
+                    Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(9) : -> " + playerProgressGap[0] + ", " + playerProgressGap[1] + ", " + playerProgressGap[2] + ", " + playerProgressGap[3] + "");
+                    tempSavePlayerProgressGap = tempSavePlayerProgressGap % 10;
+
+                    swapLocate = playerProgress[tempSavePlayerProgressGap];
+                    playerProgress[tempSavePlayerProgressGap] = tempSavePlayerProgress;
+                    tempSavePlayerProgress = swapLocate;
+
+                    Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(9) : " + tempSavePlayerProgressGap + "番プレイヤーと位置を交換しました。");
+
                     currentPhase = 4;
                     break;
                 case 10:
