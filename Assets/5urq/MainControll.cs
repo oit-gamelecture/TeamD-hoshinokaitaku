@@ -13,6 +13,7 @@ public class MainControll : MonoBehaviour
     public int currentPlayer = 0; //現在プレイしているプレイヤー:0-3
     public int requestDice = 0; // 1ならダイスをdiceRoll.csにリクエストする
     public int overcome = 0; // プレイヤーは0番マスを通過したか？
+    public int toggleMasu = 0; // +3/-3 toggleer
 
     public GameObject Dicetest;
     private DiceRoll diceRoll;
@@ -23,23 +24,30 @@ public class MainControll : MonoBehaviour
 
     public int diceAccept = 0;
 
-    public int[] playerProgress = {0,0,0,0};
+    public int[] playerProgress = { 0, 0, 0, 0 };
     /*playerProgress[0] = 0;
     playerProgress[1] = 0;
     playerProgress[2] = 0;
     playerProgress[3] = 0;*/
 
-    public int[] playerScore = {0,0,0,0};
+    public int[] playerScore = { 0, 0, 0, 0 };
     /*playerScore[0] = 0;
     playerScore[1] = 0;
     playerScore[2] = 0;
     playerScore[3] = 0;*/
-    
-    public int[] playerStatus = {0,0,0,0};
+
+    public int[] playerStatus = { 0, 0, 0, 0 };
     // 1: reverse, 2: 2x, 3: absent
+
+    public int[] playerProgressGap = { 0, 0, 0, 0 };
+
+    public int tempSavePlayerProgressGap;
 
     public int tempSavePlayerProgress;
     public int tempSavePlayerScore;
+
+    public string showMessage;
+    public int showPlayer;
 
     int receivedDice = -1;
     // Start is called before the first frame update
@@ -56,27 +64,35 @@ public class MainControll : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {   
-        if (wonPlayer != -1) {
+    {
+        if (wonPlayer != -1)
+        {
             currentPhase = 99;
             Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " " + wonPlayer + "番プレイヤーが勝利しました。");
         }
-        if (currentPhase == 0) {
+        if (currentPhase == 0)
+        {
             tempSavePlayerProgress = 999;
             tempSavePlayerScore = 999;
             // 現在プレイしているプレイヤーをここで投げる
             currentPlayer = currentTurn % 4;
             Debug.Log("" + currentTurn + "===============================================================");
             Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " プレイヤー" + currentPlayer + "番プレイヤーのターンです。");
+            showPlayer = currentPlayer + 1;
             Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " player0: " + playerProgress[0] + " マス目, player1:" + playerProgress[1] + " マス目, player2:" + playerProgress[2] + " マス目, player3:" + playerProgress[3] + " マス目です。");
 
-            if (playerStatus[currentPlayer] == 3) {
-                    Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(11) : 今回休みなので進めません。");
-                    tempSavePlayerProgress = playerProgress[currentPlayer];
-                    playerStatus[currentPlayer] = 0;
-                    currentPhase = 4;
-            }else{
+            if (playerStatus[currentPlayer] == 3)
+            {
+                Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(11) : 今回休みなので進めません。");
+                showMessage = "ターン" + currentTurn + " - " + showPlayer + "番プレイヤーのターンです。1回休みなのでターンを終了します。";
+                tempSavePlayerProgress = playerProgress[currentPlayer];
+                playerStatus[currentPlayer] = 0;
+                currentPhase = 4;
+            }
+            else
+            {
                 // <<<< Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + "サイコロを振ります。(requestDice = 1)");
+                showMessage = "ターン" + currentTurn + " - " + showPlayer + "番プレイヤーのターンです。サイコロを[R]キーで振ってください。";
                 requestDice = 1;
                 currentPhase = 1;
             }
@@ -87,47 +103,65 @@ public class MainControll : MonoBehaviour
         receivedDice = diceRoll.diceResult;//PlayerPrefs.GetInt("dice");
         //receivedDice = PlayerPrefs.GetInt("dice");
 
-        if (currentPhase == 1 && receivedDice != -1) {
+        if (currentPhase == 1 && receivedDice != -1)
+        {
             overcome = 0;
             currentPhase = 2;
             // <<<< Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + "進むためのサイコロが確定されました。: " + receivedDice + "");
-            if (playerStatus[currentPlayer] == 2) {
+            if (playerStatus[currentPlayer] == 2)
+            {
                 Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(7) : サイコロの値を2倍します。");
                 tempSavePlayerProgress = playerProgress[currentPlayer] + receivedDice + receivedDice;
                 playerStatus[currentPlayer] = 0;
-            }else if (playerStatus[currentPlayer] == 1) {
+            }
+            else if (playerStatus[currentPlayer] == 1)
+            {
                 Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(2) : 逆回転します。");
                 tempSavePlayerProgress = playerProgress[currentPlayer] - receivedDice;
                 playerStatus[currentPlayer] = 0;
-                if (tempSavePlayerProgress < 0) {
+                if (tempSavePlayerProgress < 0)
+                {
                     tempSavePlayerProgress = tempSavePlayerProgress + 12;
                 }
-            }else{
+            }
+            else
+            {
                 tempSavePlayerProgress = playerProgress[currentPlayer] + receivedDice;
             }
             //receivedDice = -1;
             diceAccept = 1;
-            if (tempSavePlayerProgress >= 12) {
+            if (tempSavePlayerProgress >= 12)
+            {
                 overcome = 1;
                 tempSavePlayerProgress = tempSavePlayerProgress - 12;
             }
             Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + "プレイヤー" + currentPlayer + " は、" + playerProgress[currentPlayer] + "マス目から" + tempSavePlayerProgress + "マス目まで進みました。");
-            if (overcome == 1) {
+            if (overcome == 1)
+            {
                 //overcome == 0;
                 Debug.Log("[MainControl] " + currentTurn + "/" + currentPhase + "プレイヤー" + currentPlayer + "は、0マス目に到達または通過しました。");
-                if (playerScore[currentPlayer] >= 3) {
-                    Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " プレイヤー" + currentPlayer + "のスコアが" + playerScore[currentPlayer] + "/3 を超えたので勝利しました。" );
+                if (playerScore[currentPlayer] >= 3)
+                {
+                    Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " プレイヤー" + currentPlayer + "のスコアが" + playerScore[currentPlayer] + "/3 を超えたので勝利しました。");
                     wonPlayer = currentPlayer;
-                }else{
+                }
+                else
+                {
                     tempSavePlayerScore = playerScore[currentPlayer] + 1;
-                    Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " プレイヤー" + currentPlayer + "のスコアは" + playerScore[currentPlayer] + "でクリアではないので、代わりに" + tempSavePlayerScore + "点になりました。" );
+                    Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " プレイヤー" + currentPlayer + "のスコアは" + playerScore[currentPlayer] + "でクリアではないので、代わりに" + tempSavePlayerScore + "点になりました。");
                 }
             }
+
             switch (tempSavePlayerProgress)
             {
+                case 0:
+                    currentPhase = 4;
+                    break;
                 case 1:
                     Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(1) : +1 pt");
-                    if (overcome == 0) {
+                    showMessage = "新たな発見があった！" + showPlayer + "番プレイヤー : +1 pt";
+                    if (overcome == 0)
+                    {
                         tempSavePlayerScore = playerScore[currentPlayer];
                     }
                     tempSavePlayerScore = tempSavePlayerScore + 1;
@@ -135,12 +169,14 @@ public class MainControll : MonoBehaviour
                     break;
                 case 2:
                     Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(2) : 次のターン逆回転");
+                    showMessage = "レーダーが狂ってしまった！" + showPlayer + "番プレイヤーは次のターン左回りに進む。";
                     playerStatus[currentPlayer] = 1; // 1: reverse
                     currentPhase = 4;
                     break;
                 case 3:
                     Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(3) : + dice mod 3 pt");
                     Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(3) : サイコロを振ってください。");
+                    showMessage = "採掘調査をしてみることになった。" + showPlayer + "番プレイヤーはサイコロを[R]キーで振ってください。";
                     currentPhase = 11;
                     receivedDice = -1;
                     requestDice = 1;
@@ -153,45 +189,105 @@ public class MainControll : MonoBehaviour
                     break;
                 case 4:
                     Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(4) : 2マス戻る");
+                    showMessage = "砂嵐に巻き込まれて撤退..." + showPlayer + "番プレイヤー : 2マス戻る";
                     tempSavePlayerProgress = tempSavePlayerProgress - 2;
                     currentPhase = 4;
                     break;
                 case 5:
                     Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(5) : 任意プレイヤーと位置交換");
                     Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(5) : 位置交換をする対象プレイヤーを数字キー1~4から選択してください。");
+                    showMessage = "怪しげな機械が埋もれているのを見つけた... 任意のプレイヤーと位置を交換することができるようだ。位置交換をするプレイヤーを[1]~[4]キーで選択してください。";
                     currentPhase = 21;
                     break;
                 case 6:
                     Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(6) :  >=1pt : 1/2 else +1");
-                    if (overcome == 0) {
+                    if (overcome == 0)
+                    {
                         tempSavePlayerScore = playerScore[currentPlayer];
                     }
-                    if (tempSavePlayerScore >= 1) {
-                        if (tempSavePlayerScore % 2 == 1) {
+                    if (tempSavePlayerScore >= 1)
+                    {
+                        if (tempSavePlayerScore % 2 == 1)
+                        {
                             tempSavePlayerScore = tempSavePlayerScore - 1;
                         }
+                        showMessage = "竜巻に巻き込まれてしまった！" + showPlayer + "番プレイヤーのポイントが半分になった...";
                         tempSavePlayerScore = tempSavePlayerScore / 2;
-                    }else{
+                    }
+                    else
+                    {
                         tempSavePlayerScore = tempSavePlayerScore + 1;
+                        showMessage = "竜巻に巻き込まれてしまった！幸運なことに" + showPlayer + "番プレイヤーは+1 ptされた。";
                     }
                     currentPhase = 4;
                     break;
                 case 7:
                     Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(7) : x2 dice next");
+                    showMessage = "燃料となる物質を発見した！" + showPlayer + "番プレイヤーは次回サイコロの出目が2倍になる！";
                     playerStatus[currentPlayer] = 2; // 2: 2x dice
                     currentPhase = 4;
                     break;
                 case 8:
-                    Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(8) : unidentified");
+                    Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(8) : Toggle +3 / -3");
+                    if (toggleMasu == 0)
+                    {
+                        toggleMasu = 1;
+                        tempSavePlayerProgress = tempSavePlayerProgress + 3;
+                        Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(8) : 3マス進みました。次通る人は3マス戻ります。");
+                        showMessage = "不思議な磁場が働いている。" + showPlayer + "番プレイヤーは3マス進んだが、次このマスを訪れる人にはよくないことが起こりそうだ...";
+                    }
+                    else
+                    {
+                        toggleMasu = 0;
+                        tempSavePlayerProgress = tempSavePlayerProgress - 3;
+                        Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(8) : 3マス戻りました。次通る人は3マス進みます。");
+                        showMessage = "不思議な磁場が働いている。" + showPlayer + "番プレイヤーは3マス戻ってしまった！ 次このマスを訪れる人にはいいことが起こりそうだ...";
+                    }
                     currentPhase = 4;
                     break;
                 case 9:
-                    Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(9) : コマが一番近い人と位置交換 (未実装)");
+                    Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(9) : コマが一番近い人とスコア交換");
+                    showMessage = "荷物を取り違えてしまった！ " + showPlayer + "番プレイヤーと一番近いプレイヤーとのスコアが入れ替わってしまう！";
+
+                    playerProgressGap[0] = Mathf.Abs(playerProgress[0] - playerProgress[currentPlayer]) * 10;
+                    playerProgressGap[1] = Mathf.Abs(playerProgress[1] - playerProgress[currentPlayer]) * 10 + 1;
+                    playerProgressGap[2] = Mathf.Abs(playerProgress[2] - playerProgress[currentPlayer]) * 10 + 2;
+                    playerProgressGap[3] = Mathf.Abs(playerProgress[3] - playerProgress[currentPlayer]) * 10 + 3;
+
+                    for (int p = 0; p < 4; p++)
+                    {
+                        if (p == 0)
+                        {
+                            tempSavePlayerProgressGap = playerProgressGap[0];
+                        }
+                        else
+                        {
+                            if (tempSavePlayerProgressGap > playerProgressGap[p])
+                            {
+                                if (playerProgressGap[p] >= 10)
+                                {
+                                    tempSavePlayerProgressGap = playerProgressGap[p];
+                                }
+                            }
+                        }
+                    }
+
+                    Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(9) : -> " + playerProgressGap[0] + ", " + playerProgressGap[1] + ", " + playerProgressGap[2] + ", " + playerProgressGap[3] + "");
+                    tempSavePlayerProgressGap = tempSavePlayerProgressGap % 10;
+
+                    swapLocate = playerScore[tempSavePlayerProgressGap];
+                    playerScore[tempSavePlayerProgressGap] = playerScore[currentPlayer];
+                    playerScore[currentPlayer] = swapLocate;
+
+                    Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(9) : " + tempSavePlayerProgressGap + "番プレイヤーとScoreを交換しました。");
+
                     currentPhase = 4;
                     break;
                 case 10:
                     Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(10) : -2 pt");
-                    if (overcome == 0) {
+                    showMessage = "鞄を落としてしまった... " + showPlayer + "番プレイヤー : -2 pt";
+                    if (overcome == 0)
+                    {
                         tempSavePlayerScore = playerScore[currentPlayer];
                     }
                     tempSavePlayerScore = tempSavePlayerScore - 2;
@@ -199,16 +295,20 @@ public class MainControll : MonoBehaviour
                     break;
                 case 11:
                     Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(11) : 5マス戻る+1休み");
+                    showMessage = "星の裏側に荷物を忘れてしまった。" + showPlayer + "番プレイヤー : 5マス戻って1回休み";
                     tempSavePlayerProgress = tempSavePlayerProgress - 5;
                     playerStatus[currentPlayer] = 3;
                     currentPhase = 4;
-                    break;       
+                    break;
             }
         }
-        if (currentPhase == 11 && receivedDice != -1) {
+        if (currentPhase == 11 && receivedDice != -1)
+        {
             modPoint = receivedDice % 3;
             Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(3) : サイコロが " + receivedDice + " だったので " + modPoint + "pt が加算されました。");
-            if (overcome == 0) {
+            showMessage = "実験の結果、" + showPlayer + "番プレイヤー : +" + modPoint + " pt";
+            if (overcome == 0)
+            {
                 tempSavePlayerScore = playerScore[currentPlayer];
             }
             tempSavePlayerScore = tempSavePlayerScore + modPoint;
@@ -216,10 +316,14 @@ public class MainControll : MonoBehaviour
             currentPhase = 4;
         }
 
-        if (currentPhase == 21 && Input.GetKeyDown(KeyCode.Alpha1)) {
-            if (currentPlayer == 0) {
+        if (currentPhase == 21 && Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            if (currentPlayer == 0)
+            {
                 Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(5) : 自分自身は選択できません。");
-            }else{
+            }
+            else
+            {
                 Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(5) : プレイヤー" + currentPlayer + "番と0番の位置を入れ替えました。");
                 swapLocate = playerProgress[0];
                 playerProgress[0] = tempSavePlayerProgress;
@@ -228,10 +332,14 @@ public class MainControll : MonoBehaviour
             }
         }
 
-        if (currentPhase == 21 && Input.GetKeyDown(KeyCode.Alpha2)) {
-            if (currentPlayer == 1) {
+        if (currentPhase == 21 && Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            if (currentPlayer == 1)
+            {
                 Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(5) : 自分自身は選択できません。");
-            }else{
+            }
+            else
+            {
                 Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(5) : プレイヤー" + currentPlayer + "番と1番の位置を入れ替えました。");
                 swapLocate = playerProgress[1];
                 playerProgress[1] = tempSavePlayerProgress;
@@ -240,10 +348,14 @@ public class MainControll : MonoBehaviour
             }
         }
 
-        if (currentPhase == 21 && Input.GetKeyDown(KeyCode.Alpha3)) {
-            if (currentPlayer == 2) {
+        if (currentPhase == 21 && Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            if (currentPlayer == 2)
+            {
                 Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(5) : 自分自身は選択できません。");
-            }else{
+            }
+            else
+            {
                 Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(5) : プレイヤー" + currentPlayer + "番と2番の位置を入れ替えました。");
                 swapLocate = playerProgress[2];
                 playerProgress[2] = tempSavePlayerProgress;
@@ -252,10 +364,14 @@ public class MainControll : MonoBehaviour
             }
         }
 
-        if (currentPhase == 21 && Input.GetKeyDown(KeyCode.Alpha4)) {
-            if (currentPlayer == 3) {
+        if (currentPhase == 21 && Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            if (currentPlayer == 3)
+            {
                 Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(5) : 自分自身は選択できません。");
-            }else{
+            }
+            else
+            {
                 Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(5) : プレイヤー" + currentPlayer + "番と3番の位置を入れ替えました。");
                 swapLocate = playerProgress[3];
                 playerProgress[3] = tempSavePlayerProgress;
@@ -263,21 +379,24 @@ public class MainControll : MonoBehaviour
                 currentPhase = 4;
             }
         }
-            
-        if (currentPhase == 4) {
+
+        if (currentPhase == 4)
+        {
             //マス効果を実行する。スコアを変更するときはovercome:0ならtemp = player + addScore、1ならtemp = temp + addScore
 
             // <<<< Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + "マス効果が終了しました。スコアに変更があった場合は保存します...");
-            if (tempSavePlayerProgress != 999) {
+            if (tempSavePlayerProgress != 999)
+            {
                 playerProgress[currentPlayer] = tempSavePlayerProgress;
                 //Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + "マス効果が終了しました。位置、スコアに変更があった場合は保存します...");
             }
-            if (tempSavePlayerScore != 999) {
+            if (tempSavePlayerScore != 999)
+            {
                 playerScore[currentPlayer] = tempSavePlayerScore;
                 Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + "スコアが変更されました。to" + playerScore[currentPlayer]);
             }
             currentPhase = 0;
             currentTurn++;
-        }   
+        }
     }
 }

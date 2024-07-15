@@ -1,0 +1,88 @@
+diff a/Assets/Scenes/Maingame.unity b/Assets/Scenes/Maingame.unity	(rejected hunks)
+@@ -123,86 +123,6 @@
+     debug:
+       m_Flags: 0
+   m_NavMeshData: {fileID: 0}
+---- !u!1 &7433715
+-GameObject:
+-  m_ObjectHideFlags: 0
+-  m_CorrespondingSourceObject: {fileID: 0}
+-  m_PrefabInstance: {fileID: 0}
+-  m_PrefabAsset: {fileID: 0}
+-  serializedVersion: 6
+-  m_Component:
+-  - component: {fileID: 7433717}
+-  - component: {fileID: 7433716}
+-  m_Layer: 0
+-  m_Name: UI
+-  m_TagString: Untagged
+-  m_Icon: {fileID: 0}
+-  m_NavMeshLayer: 0
+-  m_StaticEditorFlags: 0
+-  m_IsActive: 1
+---- !u!223 &7433716
+-Canvas:
+-  m_ObjectHideFlags: 0
+-  m_CorrespondingSourceObject: {fileID: 0}
+-  m_PrefabInstance: {fileID: 0}
+-  m_PrefabAsset: {fileID: 0}
+-  m_GameObject: {fileID: 7433715}
+-  m_Enabled: 1
+-  serializedVersion: 3
+-  m_RenderMode: 2
+-  m_Camera: {fileID: 1144625352}
+-  m_PlaneDistance: 100
+-  m_PixelPerfect: 0
+-  m_ReceivesEvents: 1
+-  m_OverrideSorting: 0
+-  m_OverridePixelPerfect: 0
+-  m_SortingBucketNormalizedSize: 0
+-  m_VertexColorAlwaysGammaSpace: 0
+-  m_AdditionalShaderChannelsFlag: 0
+-  m_UpdateRectTransformForStandalone: 0
+-  m_SortingLayerID: 0
+-  m_SortingOrder: 0
+-  m_TargetDisplay: 0
+---- !u!224 &7433717
+-RectTransform:
+-  m_ObjectHideFlags: 0
+-  m_CorrespondingSourceObject: {fileID: 0}
+-  m_PrefabInstance: {fileID: 0}
+-  m_PrefabAsset: {fileID: 0}
+-  m_GameObject: {fileID: 7433715}
+-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+-  m_LocalPosition: {x: 0, y: 0, z: 60}
+-  m_LocalScale: {x: 1, y: 1, z: 1}
+-  m_ConstrainProportionsScale: 0
+-  m_Children:
+-  - {fileID: 1760908468}
+-  - {fileID: 138173799}
+-  - {fileID: 1114993974}
+-  - {fileID: 2000455776}
+-  - {fileID: 1977788772}
+-  - {fileID: 941511615}
+-  - {fileID: 830508947}
+-  - {fileID: 486796276}
+-  - {fileID: 1666571411}
+-  - {fileID: 1203361218}
+-  - {fileID: 1412370458}
+-  - {fileID: 2083537673}
+-  - {fileID: 491201006}
+-  - {fileID: 1008071192}
+-  - {fileID: 1282186093}
+-  - {fileID: 414136107}
+-  - {fileID: 1326305232}
+-  - {fileID: 1476723088}
+-  - {fileID: 1393615084}
+-  - {fileID: 2144666625}
+-  - {fileID: 1330317979}
+-  m_Father: {fileID: 0}
+-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+-  m_AnchorMin: {x: 0, y: 0}
+-  m_AnchorMax: {x: 0, y: 0}
+-  m_AnchoredPosition: {x: 100, y: 90}
+-  m_SizeDelta: {x: 125, y: 80}
+-  m_Pivot: {x: 0.5, y: 0.5}
+ --- !u!1 &32946547
+ GameObject:
+   m_ObjectHideFlags: 0
