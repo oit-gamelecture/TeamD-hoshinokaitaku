@@ -62,6 +62,13 @@ public class MainControll : MonoBehaviour
         diceRoll = Dicetest.GetComponent<DiceRoll>();
     }
 
+    //waitNextPhaseCoroutine
+    IEnumerator waitNextPhaseCoroutine()
+    {
+            yield return new WaitForSeconds(2.0f);
+            currentPhase = 0;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -321,10 +328,13 @@ public class MainControll : MonoBehaviour
             if (currentPlayer == 0)
             {
                 Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(5) : 自分自身は選択できません。");
+                showMessage = "自分自身は選択できません。位置交換をするプレイヤーを[1]~[4]キーで選択し直してください。";
             }
             else
             {
+                showPlayer = currentPlayer + 1;
                 Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(5) : プレイヤー" + currentPlayer + "番と0番の位置を入れ替えました。");
+                showMessage = "" + showPlayer + "番プレイヤーと1番プレイヤーの位置を入れ替えました。";
                 swapLocate = playerProgress[0];
                 playerProgress[0] = tempSavePlayerProgress;
                 tempSavePlayerProgress = swapLocate;
@@ -337,10 +347,13 @@ public class MainControll : MonoBehaviour
             if (currentPlayer == 1)
             {
                 Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(5) : 自分自身は選択できません。");
+                showMessage = "自分自身は選択できません。位置交換をするプレイヤーを[1]~[4]キーで選択し直してください。";
             }
             else
             {
+                showPlayer = currentPlayer + 1;
                 Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(5) : プレイヤー" + currentPlayer + "番と1番の位置を入れ替えました。");
+                showMessage = "" + showPlayer + "番プレイヤーと2番プレイヤーの位置を入れ替えました。";
                 swapLocate = playerProgress[1];
                 playerProgress[1] = tempSavePlayerProgress;
                 tempSavePlayerProgress = swapLocate;
@@ -353,10 +366,13 @@ public class MainControll : MonoBehaviour
             if (currentPlayer == 2)
             {
                 Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(5) : 自分自身は選択できません。");
+                showMessage = "自分自身は選択できません。位置交換をするプレイヤーを[1]~[4]キーで選択し直してください。";
             }
             else
             {
+                showPlayer = currentPlayer + 1;
                 Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(5) : プレイヤー" + currentPlayer + "番と2番の位置を入れ替えました。");
+                showMessage = "" + showPlayer + "番プレイヤーと3番プレイヤーの位置を入れ替えました。";
                 swapLocate = playerProgress[2];
                 playerProgress[2] = tempSavePlayerProgress;
                 tempSavePlayerProgress = swapLocate;
@@ -369,10 +385,13 @@ public class MainControll : MonoBehaviour
             if (currentPlayer == 3)
             {
                 Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(5) : 自分自身は選択できません。");
+                showMessage = "自分自身は選択できません。位置交換をするプレイヤーを[1]~[4]キーで選択し直してください。";
             }
             else
             {
+                showPlayer = currentPlayer + 1;
                 Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + " マス効果(5) : プレイヤー" + currentPlayer + "番と3番の位置を入れ替えました。");
+                showMessage = "" + showPlayer + "番プレイヤーと4番プレイヤーの位置を入れ替えました。";
                 swapLocate = playerProgress[3];
                 playerProgress[3] = tempSavePlayerProgress;
                 tempSavePlayerProgress = swapLocate;
@@ -395,7 +414,8 @@ public class MainControll : MonoBehaviour
                 playerScore[currentPlayer] = tempSavePlayerScore;
                 Debug.Log("[MainControll] " + currentTurn + "/" + currentPhase + "スコアが変更されました。to" + playerScore[currentPlayer]);
             }
-            currentPhase = 0;
+            currentPhase = 100;
+            StartCoroutine(waitNextPhaseCoroutine());
             currentTurn++;
         }
     }
